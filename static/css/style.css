@@ -1,0 +1,19 @@
+body{
+    background:#f5f5f5;
+}
+
+.hero{
+    background:linear-gradient(135deg,#198754,#146c43);
+    color:white;
+    padding:80px 0;
+    border-radius:20px;
+}
+
+.category-card{
+    transition:.3s;
+    cursor:pointer;
+}
+
+.category-card:hover{
+    transform:translateY(-5px);
+}
