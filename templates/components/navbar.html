@@ -1,65 +1,126 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-success shadow-sm">
     <div class="container">
 
-        <a class="navbar-brand fw-bold" href="/">
+        <a class="navbar-brand fw-bold" href="{% url 'home' %}">
             🏕 Sewaku
         </a>
 
         <button class="navbar-toggler"
                 type="button"
                 data-bs-toggle="collapse"
-                data-bs-target="#navbar">
+                data-bs-target="#navbarNav">
 
             <span class="navbar-toggler-icon"></span>
 
         </button>
 
-        <div class="collapse navbar-collapse" id="navbar">
+        <div class="collapse navbar-collapse" id="navbarNav">
 
-            <form class="d-flex mx-auto" style="width:400px">
+            <!-- Menu kiri -->
+            <ul class="navbar-nav me-auto ms-4">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'home' %}">
+                        Home
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        Kategori
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        Tentang
+                    </a>
+                </li>
+
+            </ul>
+
+            <!-- Search -->
+            <form class="d-flex me-3">
 
                 <input
-                    class="form-control me-2"
+                    class="form-control"
+                    type="search"
                     placeholder="Cari alat outdoor...">
 
             </form>
 
+            <!-- Menu kanan -->
             <ul class="navbar-nav">
 
-    {% if user.is_authenticated %}
+                {% if user.is_authenticated %}
 
-    <li class="nav-item">
-        <a class="nav-link" href="{% url 'profile' %}">
-            {{ user.username }}
-        </a>
-    </li>
+                <li class="nav-item dropdown">
 
-    <li class="nav-item">
-        <a class="nav-link" href="{% url 'logout' %}">
-            Logout
-        </a>
-    </li>
+                    <a class="nav-link dropdown-toggle"
+                       href="#"
+                       role="button"
+                       data-bs-toggle="dropdown">
 
-    {% else %}
+                        👤 {{ user.username }}
 
-    <li class="nav-item">
-        <a class="nav-link" href="{% url 'login' %}">
-            Login
-        </a>
-    </li>
+                    </a>
 
-    <li class="nav-item">
-        <a class="nav-link" href="{% url 'register' %}">
-            Register
-        </a>
-    </li>
+                    <ul class="dropdown-menu dropdown-menu-end">
 
-    {% endif %}
+                        <li>
+                            <a class="dropdown-item"
+                               href="{% url 'profile' %}">
+                                👤 Profile
+                            </a>
+                        </li>
 
-</ul>
+                        <li>
+                            <a class="dropdown-item disabled"
+                               href="#">
+                                📦 Riwayat Sewa
+                            </a>
+                        </li>
+
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item text-danger"
+                               href="{% url 'logout' %}">
+                                🚪 Logout
+                            </a>
+                        </li>
+
+                    </ul>
+
+                </li>
+
+                {% else %}
+
+                <li class="nav-item">
+
+                    <a class="nav-link"
+                       href="{% url 'login' %}">
+                        Login
+                    </a>
+
+                </li>
+
+                <li class="nav-item">
+
+                    <a class="nav-link"
+                       href="{% url 'register' %}">
+                        Register
+                    </a>
+
+                </li>
+
+                {% endif %}
+
+            </ul>
 
         </div>
 
     </div>
-
 </nav>

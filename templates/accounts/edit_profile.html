@@ -2,33 +2,99 @@
 
 {% block content %}
 
-<div class="container mt-5" style="max-width:700px;">
+<div class="container mt-5">
 
-<div class="card shadow">
+<div class="row justify-content-center">
+
+<div class="col-lg-8">
+
+<div class="card shadow border-0">
+
+<div class="card-header bg-success text-white">
+
+<h3 class="mb-0">
+
+✏️ Edit Profile
+
+</h3>
+
+</div>
 
 <div class="card-body">
-
-<h2 class="mb-4">
-
-Edit Profile
-
-</h2>
 
 <form method="POST"
       enctype="multipart/form-data">
 
 {% csrf_token %}
 
-{{ form.as_p }}
+<div class="mb-3">
+
+<label class="form-label">
+
+Username
+
+</label>
+
+{{ form.username }}
+
+</div>
+
+<div class="mb-3">
+
+<label class="form-label">
+
+Email
+
+</label>
+
+{{ form.email }}
+
+</div>
+
+<div class="mb-3">
+
+<label class="form-label">
+
+Nomor HP
+
+</label>
+
+{{ form.phone }}
+
+</div>
+
+<div class="mb-3">
+
+<label class="form-label">
+
+Foto Profil
+
+</label>
+
+{{ form.avatar }}
+
+</div>
 
 <button
 class="btn btn-success">
 
-Simpan
+💾 Simpan Perubahan
 
 </button>
 
+<a
+href="{% url 'profile' %}"
+class="btn btn-secondary">
+
+Batal
+
+</a>
+
 </form>
+
+</div>
+
+</div>
 
 </div>
 
