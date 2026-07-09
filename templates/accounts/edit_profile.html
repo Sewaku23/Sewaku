@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-5" style="max-width:700px;">
+
+<div class="card shadow">
+
+<div class="card-body">
+
+<h2 class="mb-4">
+
+Edit Profile
+
+</h2>
+
+<form method="POST"
+      enctype="multipart/form-data">
+
+{% csrf_token %}
+
+{{ form.as_p }}
+
+<button
+class="btn btn-success">
+
+Simpan
+
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}
