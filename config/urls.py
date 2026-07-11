@@ -14,11 +14,13 @@ urlpatterns = [
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("accounts.urls")),
+    path("", include("catalog.urls")),
 ]
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("accounts.urls")),
+    path("", include("catalog.urls")),
 ]
 
 if settings.DEBUG:
