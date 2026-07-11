@@ -28,7 +28,12 @@
 
                     <h5>
 
-                        {{ product.name }}
+                        <a
+                            href="{% url 'product_detail' product.id %}"
+                            class="text-decoration-none">
+                            {{ product.name }}
+
+                        </a>
 
                     </h5>
 

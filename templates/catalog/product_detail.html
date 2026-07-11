@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+<div class="row">
+
+<div class="col-md-6">
+
+{% if product.image %}
+
+<img
+src="{{ product.image.url }}"
+class="img-fluid rounded shadow">
+
+{% else %}
+
+<div
+class="bg-light d-flex justify-content-center align-items-center rounded"
+style="height:400px;">
+
+Tidak ada gambar
+
+</div>
+
+{% endif %}
+
+</div>
+
+<div class="col-md-6">
+
+<h2>
+
+{{ product.name }}
+
+</h2>
+
+<p class="text-muted">
+
+Kategori :
+
+{{ product.category }}
+
+</p>
+
+<p>
+
+Brand :
+
+{{ product.brand }}
+
+</p>
+
+<h4 class="text-success">
+
+Rp {{ product.price_per_day }}
+
+<small>/ Hari</small>
+
+</h4>
+
+<p>
+
+Stock :
+
+<strong>
+
+{{ product.stock }}
+
+</strong>
+
+</p>
+
+<hr>
+
+<p>
+
+{{ product.description }}
+
+</p>
+
+<button
+class="btn btn-success btn-lg"
+disabled>
+
+🏕 Sewa Sekarang
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}
