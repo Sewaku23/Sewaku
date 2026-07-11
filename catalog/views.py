@@ -5,15 +5,23 @@ from .models import Product
 
 def product_list(request):
     """
-    Menampilkan seluruh produk.
+    Menampilkan daftar produk dan mendukung pencarian.
     """
+
+    query = request.GET.get("q", "")
 
     products = Product.objects.select_related(
         "category"
-    ).all()
+    )
+
+    if query:
+        products = products.filter(
+            name__icontains=query
+        )
 
     context = {
-        "products": products
+        "products": products,
+        "query": query,
     }
 
     return render(
@@ -21,7 +29,6 @@ def product_list(request):
         "catalog/product_list.html",
         context
     )
-
 
 def product_detail(request, pk):
     """

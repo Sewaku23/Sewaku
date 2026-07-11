@@ -4,6 +4,28 @@
 
 <div class="container mt-5">
 
+    <form method="GET" class="mb-4">
+
+        <div class="input-group">
+
+            <input
+                type="text"
+                name="q"
+                class="form-control"
+                placeholder="Cari alat outdoor..."
+                value="{{ query }}">
+
+            <button
+                class="btn btn-success">
+
+                Cari
+
+            </button>
+
+        </div>
+
+    </form>
+
     <h2 class="mb-4">
         🏕 Semua Produk
     </h2>
@@ -62,19 +84,23 @@
 
         </div>
 
-        {% empty %}
+            {% empty %}
 
-        <div class="col-12">
+                {% if query %}
 
-            <div class="alert alert-warning">
+                    <div class="alert alert-warning">
+                        Tidak ditemukan produk dengan kata kunci "<strong>{{ query }}</strong>".
+                    </div>
 
-                Belum ada produk.
+                {% else %}
 
-            </div>
+                    <div class="alert alert-info">
+                        Belum ada produk yang tersedia.
+                    </div>
 
-        </div>
+                {% endif %}
 
-        {% endfor %}
+            {% endfor %}
 
     </div>
 
