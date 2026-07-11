@@ -9,7 +9,7 @@ class Category(models.Model):
     name = models.CharField(
         max_length=100,
         unique=True,
-        verbose_name="Tenda"
+        verbose_name="Nama Kategori"
     )
 
     slug = models.SlugField(
@@ -19,7 +19,7 @@ class Category(models.Model):
 
     description = models.TextField(
         blank=True,
-        verbose_name="Tenda"
+        verbose_name="Deskripsi"
     )
 
     icon = models.CharField(
