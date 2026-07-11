@@ -67,4 +67,8 @@ class ProductAdmin(admin.ModelAdmin):
         "name",
     )
 
+    prepopulated_fields = {
+    "slug": ("name",)
+    }
+
     list_per_page = 15

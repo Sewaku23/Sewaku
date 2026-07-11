@@ -77,6 +77,12 @@ class Product(models.Model):
         verbose_name="Merek"
     )
 
+    slug = models.SlugField(
+        unique=True,
+        blank=True,
+        verbose_name="Slug"
+    )
+
     description = models.TextField(
         blank=True,
         verbose_name="Deskripsi"
@@ -118,3 +124,11 @@ class Product(models.Model):
         verbose_name = "Product"
 
         verbose_name_plural = "Products"
+    
+    def save(self, *args, **kwargs):
+
+        if not self.slug:
+
+            self.slug = slugify(self.name)
+
+        super().save(*args, **kwargs)

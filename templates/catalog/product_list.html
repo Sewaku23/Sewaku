@@ -4,159 +4,234 @@
 
 <div class="container mt-5">
 
-    <form method="GET" class="mb-4">
-
-        <div class="input-group">
-
-            <input
-                type="text"
-                name="q"
-                class="form-control"
-                placeholder="Cari alat outdoor..."
-                value="{{ query }}">
-
-            <button
-                class="btn btn-success">
-
-                Cari
-
-            </button>
-
-        </div>
-
-    </form>
-
-    <h2 class="mb-4">
-        🏕 Semua Produk
-    </h2>
-
     <div class="row">
 
-        {% for product in products %}
+        <!-- Sidebar -->
+        <div class="col-lg-3 mb-4">
 
-        <div class="col-md-4 mb-4">
+            <h4>Kategori</h4>
 
-            <div class="card h-100 shadow-sm">
+            <div class="list-group">
 
-                {% if product.image %}
+                <a href="{% url 'product_list' %}"
+                   class="list-group-item {% if not selected_category %}active{% endif %}">
+                    Semua Produk
+                </a>
 
-                <img src="{{ product.image.url }}"
-                     class="card-img-top"
-                     style="height:250px; object-fit:cover;">
+                {% for category in categories %}
 
-                {% endif %}
+                    <a href="?category={{ category.slug }}"
+                       class="list-group-item {% if selected_category == category.slug %}active{% endif %}">
 
-                <div class="card-body">
+                        {{ category.icon }} {{ category.name }}
 
-                    <h5>
+                    </a>
 
-                        <a
-                            href="{% url 'product_detail' product.id %}"
-                            class="text-decoration-none">
-                            {{ product.name }}
-
-                        </a>
-
-                    </h5>
-
-                    <p class="text-muted">
-
-                        {{ product.category }}
-
-                    </p>
-
-                    <p>
-
-                        Rp {{ product.price_per_day }}
-
-                    </p>
-
-                    <p>
-
-                        Stock :
-                        {{ product.stock }}
-
-                    </p>
-
-                </div>
+                {% endfor %}
 
             </div>
 
         </div>
 
-            {% empty %}
+        <!-- Product -->
+        <div class="col-lg-9">
 
-                {% if query %}
+            <form method="GET" class="mb-4">
 
-                    <div class="alert alert-warning">
-                        Tidak ditemukan produk dengan kata kunci "<strong>{{ query }}</strong>".
+                <div class="input-group">
+
+                    <input
+                        type="text"
+                        name="q"
+                        class="form-control"
+                        placeholder="Cari alat outdoor..."
+                        value="{{ query }}">
+
+                    {% if selected_category %}
+                        <input
+                            type="hidden"
+                            name="category"
+                            value="{{ selected_category }}">
+                    {% endif %}
+
+                    <button class="btn btn-success">
+
+                        Cari
+
+                    </button>
+
+                </div>
+
+            </form>
+
+            <h2 class="mb-4">
+
+                🏕 Semua Produk
+
+            </h2>
+
+            <div class="row">
+
+                {% for product in products %}
+
+                <div class="col-md-6 col-xl-4 mb-4">
+
+                    <div class="card h-100 shadow-sm border-0">
+
+                        {% if product.image %}
+
+                            <img
+                                src="{{ product.image.url }}"
+                                class="card-img-top"
+                                style="height:220px;object-fit:cover;">
+
+                        {% else %}
+
+                            <div
+                                class="bg-light d-flex justify-content-center align-items-center"
+                                style="height:220px;">
+
+                                📷
+
+                            </div>
+
+                        {% endif %}
+
+                        <div class="card-body">
+
+                            <span class="badge bg-success mb-2">
+
+                                {{ product.category }}
+
+                            </span>
+
+                            <h5>
+
+                                <a
+                                    href="{% url 'product_detail' product.slug %}"
+                                    class="text-decoration-none text-dark">
+
+                                    {{ product.name }}
+
+                                </a>
+
+                            </h5>
+
+                            <p class="text-muted mb-2">
+
+                                {{ product.brand }}
+
+                            </p>
+
+                            <h5 class="text-success">
+
+                                Rp {{ product.price_per_day }}
+
+                            </h5>
+
+                            <p>
+
+                                Stock :
+                                <strong>{{ product.stock }}</strong>
+
+                            </p>
+
+                        </div>
+
                     </div>
 
-                {% else %}
+                </div>
 
-                    <div class="alert alert-info">
-                        Belum ada produk yang tersedia.
-                    </div>
+                {% empty %}
 
-                {% endif %}
+                <div class="col-12">
 
-            {% endfor %}
+                    {% if query %}
 
-        <nav class="mt-4">
+                        <div class="alert alert-warning">
 
-             <ul class="pagination justify-content-center">
+                            Tidak ditemukan produk dengan kata kunci
+                            <strong>{{ query }}</strong>
 
-                {% if page_obj.has_previous %}
+                        </div>
 
-                <li class="page-item">
+                    {% else %}
 
-                    <a
-                    class="page-link"
-                    href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}">
+                        <div class="alert alert-info">
 
-                    Previous
+                            Belum ada produk.
 
-                    </a>
+                        </div>
 
-                </li>
+                    {% endif %}
 
-                {% endif %}
-
-                {% for num in page_obj.paginator.page_range %}
-
-                <li class="page-item {% if page_obj.number == num %}active{% endif %}">
-
-                    <a
-                    class="page-link"
-                    href="?page={{ num }}{% if query %}&q={{ query }}{% endif %}">
-
-                    {{ num }}
-
-                    </a>
-
-                </li>
+                </div>
 
                 {% endfor %}
 
-                {% if page_obj.has_next %}
+            </div>
 
-                <li class="page-item">
+            <!-- Pagination -->
 
-                    <a
-                    class="page-link"
-                    href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}">
+            {% if page_obj.paginator.num_pages > 1 %}
 
-                    Next
+            <nav class="mt-4">
 
-                     </a>
+                <ul class="pagination justify-content-center">
 
-                </li>
+                    {% if page_obj.has_previous %}
 
-                {% endif %}
+                    <li class="page-item">
 
-            </ul>
+                        <a class="page-link"
+                           href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}">
 
-        </nav>
+                            Previous
+
+                        </a>
+
+                    </li>
+
+                    {% endif %}
+
+                    {% for num in page_obj.paginator.page_range %}
+
+                    <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+
+                        <a class="page-link"
+                           href="?page={{ num }}{% if query %}&q={{ query }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}">
+
+                            {{ num }}
+
+                        </a>
+
+                    </li>
+
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+
+                    <li class="page-item">
+
+                        <a class="page-link"
+                           href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}">
+
+                            Next
+
+                        </a>
+
+                    </li>
+
+                    {% endif %}
+
+                </ul>
+
+            </nav>
+
+            {% endif %}
+
+        </div>
+
     </div>
 
 </div>

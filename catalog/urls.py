@@ -11,9 +11,9 @@ urlpatterns = [
     ),
 
     path(
-    "products/<int:pk>/",
-    views.product_detail,
-    name="product_detail"
+        "products/<slug:slug>/",
+        views.product_detail,
+        name="product_detail"
 ),
 
 ]

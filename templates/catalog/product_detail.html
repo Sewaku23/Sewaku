@@ -95,3 +95,21 @@ disabled>
 </div>
 
 {% endblock %}
+
+{% if product.stock > 0 %}
+
+<span class="badge bg-success">
+
+Tersedia
+
+</span>
+
+{% else %}
+
+<span class="badge bg-danger">
+
+Habis
+
+</span>
+
+{% endif %}
