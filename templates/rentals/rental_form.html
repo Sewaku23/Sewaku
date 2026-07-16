@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <h2>Sewa Produk</h2>
+
+    <div class="card mt-4">
+
+        <div class="card-body">
+
+            <h4>{{ product.name }}</h4>
+
+            <p>Harga / Hari : Rp {{ product.price_per_day }}</p>
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                {{ form.as_p }}
+
+                <button
+                    class="btn btn-success">
+
+                    Buat Rental
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

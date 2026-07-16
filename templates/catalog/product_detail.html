@@ -80,21 +80,33 @@ Stock :
 
 </p>
 
-<button
-class="btn btn-success btn-lg"
-disabled>
+{% if product.stock > 0 %}
 
-🏕 Sewa Sekarang
+<a
+    href="{% url 'create_rental' product.id %}"
+    class="btn btn-success btn-lg">
+
+    🏕 Sewa Sekarang
+
+</a>
+
+{% else %}
+
+<button
+    class="btn btn-secondary btn-lg"
+    disabled>
+
+    Stock Habis
 
 </button>
 
-</div>
+{% endif %}
 
 </div>
 
 </div>
 
-{% endblock %}
+</div>
 
 {% if product.stock > 0 %}
 
@@ -113,3 +125,7 @@ Habis
 </span>
 
 {% endif %}
+
+{% endblock %}
+
+
