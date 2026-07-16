@@ -61,3 +61,21 @@ def create_rental(request, product_id):
         context,
 
     )
+
+
+@login_required
+def my_rentals(request):
+
+    rentals = Rental.objects.filter(
+        user=request.user
+    ).prefetch_related(
+        "items__product"
+    ).order_by("-created_at")
+
+    return render(
+        request,
+        "rentals/my_rentals.html",
+        {
+            "rentals": rentals,
+        },
+    )

@@ -1,19 +1,21 @@
 # Changelog
 
+## Sprint 1
+
+- Initial Django Setup
+
+## Sprint 2
+
+- Landing Page
+
+## Sprint 3
+
+- Authentication
+
+## Sprint 4
+
+- Product Catalog
+
 ## Sprint 5
 
-### Added
-
-- Rental Model
-
-- Rental Item
-
-- Rental Admin
-
-### Changed
-
-- Product URL menggunakan slug
-
-### Fixed
-
-- Product List UI
+- Rental System

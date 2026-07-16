@@ -10,4 +10,10 @@ urlpatterns = [
         name="create_rental",
     ),
 
+    path(
+        "my-rentals/",
+        views.my_rentals,
+        name="my_rentals",
+    ),
+
 ]

@@ -1,93 +1,38 @@
-# Sprint 5 - Rental System
+# Sprint 5
 
 ## Tujuan
 
-Membangun sistem penyewaan yang dapat digunakan sebagai sumber data sistem rekomendasi.
+Membangun sistem penyewaan.
 
----
+## Fitur
 
-## Business Rules
+- Rental
+- Rental Item
+- Checkout
+- Rental History
 
-1. Produk tidak dapat disewa jika stok habis.
+## File yang dibuat
 
-2. Jumlah penyewaan tidak boleh melebihi stok.
+rentals/models.py
 
-3. Tanggal kembali harus lebih besar dari tanggal sewa.
+rentals/views.py
 
-4. Status Pending tidak mengurangi stok.
+rentals/forms.py
 
-5. Status On Rent mengurangi stok.
+rentals/urls.py
 
-6. Status Returned menambah stok.
+templates/rentals/
 
-7. Rental Completed masuk ke History Rental.
+## Pengujian
 
----
+✅ Login
 
-## Workflow
+✅ Checkout
 
-Login
+✅ Rental History
 
-↓
+## Kendala
 
-Pilih Produk
-
-↓
-
-Checkout
-
-↓
-
-Pending
-
-↓
-
-Confirmed
-
-↓
-
-On Rent
-
-↓
-
-Returned
-
-↓
-
-Completed
-
-↓
-
-Recommendation
-
-
-## Sprint 5.6
-
-### Tujuan
-
-Menghitung subtotal dan total transaksi secara otomatis.
-
-### Rumus
-
-Subtotal
-
-Harga × Qty × Lama Sewa
-
-Total
-
-Σ Semua Subtotal
-
-## Sprint 5.7
-
-### Stock Management
-
-Business Rule:
-
-- Pending → Stock tetap.
-- Confirmed → Stock tetap.
-- On Rent → Stock berkurang.
-- Returned → Stock bertambah.
-
-Alasan:
-
-Barang dianggap keluar gudang saat benar-benar dipinjam.
+- Error slug
+- Error calculate_subtotal
+- Error template
