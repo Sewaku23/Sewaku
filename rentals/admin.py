@@ -1,5 +1,20 @@
 from django.contrib import admin
+
 from .models import Rental, RentalItem
+
+
+@admin.action(description="Approve Rental")
+def approve_rental(modeladmin, request, queryset):
+
+    for rental in queryset:
+        rental.approve()
+
+
+@admin.action(description="Complete Rental")
+def complete_rental(modeladmin, request, queryset):
+
+    for rental in queryset:
+        rental.complete()
 
 
 class RentalItemInline(admin.TabularInline):
@@ -13,9 +28,9 @@ class RentalAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "user",
+        "status",
         "start_date",
         "end_date",
-        "status",
         "total_price",
     )
 
@@ -34,9 +49,14 @@ class RentalAdmin(admin.ModelAdmin):
         "-created_at",
     )
 
-    inlines = [
+    actions = (
+        approve_rental,
+        complete_rental,
+    )
+
+    inlines = (
         RentalItemInline,
-    ]
+    )
 
 
 @admin.register(RentalItem)
@@ -52,4 +72,8 @@ class RentalItemAdmin(admin.ModelAdmin):
 
     search_fields = (
         "product__name",
+    )
+
+    ordering = (
+        "-id",
     )

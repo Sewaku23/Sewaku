@@ -105,6 +105,37 @@ class Rental(models.Model):
 
         return problems
 
+    def approve(self):
+        """
+        Menyetujui rental dan mengurangi stok produk.
+        """
+
+        if self.status != self.STATUS_PENDING:
+            return
+
+        for item in self.items.all():
+            item.product.stock -= item.quantity
+            item.product.save()
+
+        self.status = self.STATUS_CONFIRMED
+        self.save()
+
+
+    def complete(self):
+        """
+        Menyelesaikan rental dan mengembalikan stok produk.
+        """
+
+        if self.status != self.STATUS_CONFIRMED:
+            return
+
+        for item in self.items.all():
+            item.product.stock += item.quantity
+            item.product.save()
+
+        self.status = self.STATUS_COMPLETED
+        self.save()
+
     def __str__(self):
         return f"Rental #{self.id} - {self.user.username}"
 

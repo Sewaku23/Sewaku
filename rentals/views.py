@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 
 from catalog.models import Product
+from payments.models import Payment
 from .forms import RentalForm
 from .models import Rental, RentalItem
 
@@ -26,19 +27,32 @@ def create_rental(request, product_id):
 
             rental.save()
 
-            RentalItem.objects.create(
+            item = RentalItem.objects.create(
 
+                    rental=rental,
+
+                    product=product,
+
+                    quantity=1,
+
+                    price=product.price_per_day,
+
+                )
+
+            # Hitung total pembayaran
+            rental.total_price = item.subtotal
+            rental.save(update_fields=["total_price"])
+
+            # Buat data pembayaran otomatis
+            payment = Payment.objects.create(
                 rental=rental,
-
-                product=product,
-
-                quantity=1,
-
-                price=product.price_per_day,
-
+                amount=rental.total_price,
             )
 
-            return redirect("home")
+            return redirect(
+                "checkout_summary",
+                payment_id=payment.id,
+            )
 
     else:
 

@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <div class="card shadow">
+
+        <div class="card-header">
+            <h3>Checkout Summary</h3>
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-bordered">
+
+                <tr>
+                    <th>Produk</th>
+                    <td>{{ rental.items.first.product.name }}</td>
+                </tr>
+
+                <tr>
+                    <th>Harga / Hari</th>
+                    <td>Rp {{ rental.items.first.price }}</td>
+                </tr>
+
+                <tr>
+                    <th>Jumlah</th>
+                    <td>{{ rental.items.first.quantity }}</td>
+                </tr>
+
+                <tr>
+                    <th>Durasi</th>
+                    <td>{{ rental.rental_days }} Hari</td>
+                </tr>
+
+                <tr>
+                    <th>Perhitungan</th>
+                    <td>
+                        Rp {{ rental.items.first.price }}
+                        ×
+                        {{ rental.rental_days }} Hari
+                        ×
+                        {{ rental.items.first.quantity }}
+                    </td>
+                </tr>
+
+                <tr class="table-success">
+                    <th>Total Bayar</th>
+                    <th>Rp {{ payment.amount }}</th>
+                </tr>
+
+             </table>
+            <hr>
+
+            <form method="post">
+
+                {% csrf_token %}
+
+                {{ form.as_p }}
+
+                <button
+                    type="submit"
+                    class="btn btn-success"
+                >
+                    Konfirmasi Pembayaran
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
