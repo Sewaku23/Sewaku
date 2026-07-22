@@ -11,3 +11,9 @@ class PaymentMethodForm(forms.ModelForm):
         widgets = {
             "payment_method": forms.RadioSelect,
         }
+
+class PaymentProofForm(forms.ModelForm):
+
+    class Meta:
+        model = Payment
+        fields = ["proof"]

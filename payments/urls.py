@@ -8,4 +8,10 @@ urlpatterns = [
         views.checkout_summary,
         name="checkout_summary",
     ),
+
+    path(
+    "upload/<int:payment_id>/",
+    views.upload_payment,
+    name="upload_payment",
+    ),
 ]
