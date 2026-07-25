@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-warning">
+
+                    <h3 class="mb-0">
+
+                        Pembayaran Cash
+
+                    </h3>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="alert alert-warning">
+
+                        <h5>Pembayaran Tunai</h5>
+
+                        <p>
+
+                            Anda memilih metode pembayaran <strong>Cash</strong>.
+
+                        </p>
+
+                        <p>
+
+                            Pembayaran dilakukan saat pengambilan barang.
+
+                        </p>
+
+                        <p class="mb-0">
+
+                            Pastikan membawa uang sesuai total transaksi.
+
+                        </p>
+
+                    </div>
+
+                    <hr>
+
+                    <table class="table">
+
+                        <tr>
+
+                            <th>Total Pembayaran</th>
+
+                            <th class="text-success">
+
+                                Rp {{ payment.amount }}
+
+                            </th>
+
+                        </tr>
+
+                    </table>
+
+                    <form method="post">
+
+                        {% csrf_token %}
+
+                        <button
+                            class="btn btn-success w-100"
+                        >
+
+                            Saya Mengerti
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

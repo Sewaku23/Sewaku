@@ -34,7 +34,10 @@ def checkout_summary(request, payment_id):
                 payment_id=payment.id,
             )
 
-        return redirect("my_rentals")
+        return redirect(
+            "cash_information",
+            payment_id=payment.id,
+        )
 
     else:
 
@@ -105,4 +108,34 @@ def upload_payment(request, payment_id):
         request,
         "payments/upload_payment.html",
         context,
+    )
+
+
+@login_required
+def cash_information(request, payment_id):
+
+    payment = get_object_or_404(
+        Payment,
+        id=payment_id,
+        rental__user=request.user,
+    )
+
+    if request.method == "POST":
+
+        return redirect("my_rentals")
+
+    context = {
+
+        "payment": payment,
+
+    }
+
+    return render(
+
+        request,
+
+        "payments/cash_information.html",
+
+        context,
+
     )

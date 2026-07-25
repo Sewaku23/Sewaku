@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib import messages
 from django.utils.html import format_html
 
 from .models import Payment
@@ -30,6 +31,11 @@ class PaymentAdmin(admin.ModelAdmin):
         "created_at",
         "updated_at",
         "proof_preview",
+    )
+
+    actions = (
+        "approve_payment",
+        "reject_payment",
     )
 
     fieldsets = (
@@ -79,10 +85,45 @@ class PaymentAdmin(admin.ModelAdmin):
     def proof_preview(self, obj):
 
         if obj.proof:
-
             return format_html(
                 '<img src="{}" style="max-height:300px;border-radius:10px;" />',
                 obj.proof.url,
             )
 
         return "Belum ada bukti pembayaran."
+
+    @admin.action(description="Approve selected payments")
+    def approve_payment(self, request, queryset):
+
+        updated = 0
+
+        for payment in queryset:
+
+            if payment.status == Payment.STATUS_APPROVED:
+                continue
+
+            payment.status = Payment.STATUS_APPROVED
+            payment.save()
+
+            payment.rental.approve()
+
+            updated += 1
+
+        self.message_user(
+            request,
+            f"{updated} payment berhasil disetujui.",
+            messages.SUCCESS,
+        )
+
+    @admin.action(description="Reject selected payments")
+    def reject_payment(self, request, queryset):
+
+        updated = queryset.update(
+            status=Payment.STATUS_REJECTED,
+        )
+
+        self.message_user(
+            request,
+            f"{updated} payment berhasil ditolak.",
+            messages.SUCCESS,
+        )

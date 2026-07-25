@@ -10,8 +10,14 @@ urlpatterns = [
     ),
 
     path(
-    "upload/<int:payment_id>/",
-    views.upload_payment,
-    name="upload_payment",
+        "upload/<int:payment_id>/",
+        views.upload_payment,
+        name="upload_payment",
+    ),
+
+    path(
+        "cash/<int:payment_id>/",
+        views.cash_information,
+        name="cash_information",
     ),
 ]
