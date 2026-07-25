@@ -160,6 +160,7 @@ class RentalItem(models.Model):
     product = models.ForeignKey(
         Product,
         on_delete=models.CASCADE,
+        related_name="rental_items",
         verbose_name="Produk",
     )
 

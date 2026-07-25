@@ -54,4 +54,3 @@ recommendation engine.
 -   Recreated review migration
 -   Resolved inconsistent migration history
 -   Rebuilt review table successfully
-

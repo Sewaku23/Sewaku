@@ -2,130 +2,184 @@
 
 {% block content %}
 
-<div class="container mt-5">
+<div class="container py-5">
 
-<div class="row">
+    <div class="row g-5">
 
-<div class="col-md-6">
+        <!-- Product Image -->
+        <div class="col-lg-6">
 
-{% if product.image %}
+            {% if product.image %}
+                <img
+                    src="{{ product.image.url }}"
+                    alt="{{ product.name }}"
+                    class="img-fluid rounded shadow"
+                >
+            {% else %}
+                <div
+                    class="bg-light rounded shadow d-flex justify-content-center align-items-center"
+                    style="height: 450px;"
+                >
+                    <span class="text-muted">
+                        Tidak ada gambar
+                    </span>
+                </div>
+            {% endif %}
 
-<img
-src="{{ product.image.url }}"
-class="img-fluid rounded shadow">
+        </div>
 
-{% else %}
+        <!-- Product Information -->
+        <div class="col-lg-6">
 
-<div
-class="bg-light d-flex justify-content-center align-items-center rounded"
-style="height:400px;">
+            <div class="d-flex justify-content-between align-items-start">
 
-Tidak ada gambar
+                <div>
+
+                    <h2 class="fw-bold mb-2">
+                        {{ product.name }}
+                    </h2>
+
+                    <div class="mb-3">
+
+                        <span class="text-warning fw-semibold">
+                            ⭐ {{ product.average_rating }}
+                        </span>
+
+                        <span class="text-muted">
+                            ({{ product.review_count }} Review)
+                        </span>
+
+                    </div>
+
+                </div>
+
+                {% if product.stock > 0 %}
+                    <span class="badge bg-success fs-6">
+                        Tersedia
+                    </span>
+                {% else %}
+                    <span class="badge bg-danger fs-6">
+                        Habis
+                    </span>
+                {% endif %}
+
+            </div>
+
+            <table class="table table-borderless mt-3">
+
+                <tr>
+                    <th width="120">Kategori</th>
+                    <td>{{ product.category }}</td>
+                </tr>
+
+                <tr>
+                    <th>Brand</th>
+                    <td>{{ product.brand }}</td>
+                </tr>
+
+                <tr>
+                    <th>Harga</th>
+                    <td class="text-success fw-bold">
+                        Rp {{ product.price_per_day }} / Hari
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>Stok</th>
+                    <td>{{ product.stock }}</td>
+                </tr>
+
+            </table>
+
+            <hr>
+
+            <h5>Deskripsi</h5>
+
+            <p class="text-muted">
+                {{ product.description }}
+            </p>
+
+            {% if product.stock > 0 %}
+                <a
+                    href="{% url 'create_rental' product.id %}"
+                    class="btn btn-success btn-lg mt-3"
+                >
+                    🏕 Sewa Sekarang
+                </a>
+            {% else %}
+                <button
+                    class="btn btn-secondary btn-lg mt-3"
+                    disabled
+                >
+                    Stock Habis
+                </button>
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    <!-- Review Section -->
+    <div class="mt-5">
+
+        <h3 class="fw-bold mb-4">
+            ⭐ Review Pengguna
+        </h3>
+
+        {% if reviews %}
+
+            {% for review in reviews %}
+
+                <div class="card shadow-sm mb-3">
+
+                    <div class="card-body">
+
+                        <div class="d-flex justify-content-between">
+
+                            <strong>
+                                {{ review.user.username }}
+                            </strong>
+
+                            <small class="text-muted">
+                                {{ review.created_at|date:"d M Y" }}
+                            </small>
+
+                        </div>
+
+                        <div class="mt-2 mb-2">
+
+                            {% for i in "12345" %}
+                                {% if forloop.counter <= review.rating %}
+                                    ⭐
+                                {% else %}
+                                    ☆
+                                {% endif %}
+                            {% endfor %}
+
+                        </div>
+
+                        <p class="mb-0">
+                            {{ review.comment }}
+                        </p>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="alert alert-light border">
+
+                Belum ada review untuk produk ini.
+
+            </div>
+
+        {% endif %}
+
+    </div>
 
 </div>
-
-{% endif %}
-
-</div>
-
-<div class="col-md-6">
-
-<h2>
-
-{{ product.name }}
-
-</h2>
-
-<p class="text-muted">
-
-Kategori :
-
-{{ product.category }}
-
-</p>
-
-<p>
-
-Brand :
-
-{{ product.brand }}
-
-</p>
-
-<h4 class="text-success">
-
-Rp {{ product.price_per_day }}
-
-<small>/ Hari</small>
-
-</h4>
-
-<p>
-
-Stock :
-
-<strong>
-
-{{ product.stock }}
-
-</strong>
-
-</p>
-
-<hr>
-
-<p>
-
-{{ product.description }}
-
-</p>
-
-{% if product.stock > 0 %}
-
-<a
-    href="{% url 'create_rental' product.id %}"
-    class="btn btn-success btn-lg">
-
-    🏕 Sewa Sekarang
-
-</a>
-
-{% else %}
-
-<button
-    class="btn btn-secondary btn-lg"
-    disabled>
-
-    Stock Habis
-
-</button>
-
-{% endif %}
-
-</div>
-
-</div>
-
-</div>
-
-{% if product.stock > 0 %}
-
-<span class="badge bg-success">
-
-Tersedia
-
-</span>
-
-{% else %}
-
-<span class="badge bg-danger">
-
-Habis
-
-</span>
-
-{% endif %}
 
 {% endblock %}
-
-
