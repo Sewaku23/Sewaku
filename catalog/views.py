@@ -72,12 +72,26 @@ def product_detail(request, slug):
     """
 
     product = get_object_or_404(
-        Product.objects.select_related("category"),
-        slug=slug
+        Product.objects.select_related(
+            "category"
+        ).prefetch_related(
+            "rental_items__review",
+            "rental_items__review__user",
+        ),
+        slug=slug,
     )
 
+    reviews = []
+
+    for item in product.rental_items.all():
+
+        if hasattr(item, "review"):
+
+            reviews.append(item.review)
+
     context = {
-        "product": product
+    "product": product,
+    "reviews": reviews,
     }
 
     return render(
@@ -85,3 +99,4 @@ def product_detail(request, slug):
         "catalog/product_detail.html",
         context
     )
+

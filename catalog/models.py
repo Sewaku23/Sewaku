@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
+from django.db.models import Avg
 
 class Category(models.Model):
     """
@@ -132,3 +133,28 @@ class Product(models.Model):
             self.slug = slugify(self.name)
 
         super().save(*args, **kwargs)
+
+    @property
+    def average_rating(self):
+        """
+        Mengembalikan rata-rata rating produk.
+        """
+
+        average = self.rental_items.filter(
+            review__isnull=False
+        ).aggregate(
+            Avg("review__rating")
+        )["review__rating__avg"]
+
+        return round(average or 0, 1)
+
+
+    @property
+    def review_count(self):
+        """
+        Mengembalikan jumlah review produk.
+        """
+
+        return self.rental_items.filter(
+            review__isnull=False
+        ).count()
