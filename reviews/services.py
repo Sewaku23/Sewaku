@@ -1,7 +1,6 @@
 from django.core.exceptions import PermissionDenied
-
+from .exceptions import ReviewError
 from rentals.models import Rental
-
 from .models import Review
 
 
@@ -11,17 +10,17 @@ def can_review(user, rental_item):
     """
 
     if rental_item.rental.user != user:
-        raise PermissionDenied(
+        raise ReviewError(
             "Anda bukan penyewa produk ini."
         )
 
     if rental_item.rental.status != Rental.STATUS_COMPLETED:
-        raise PermissionDenied(
+        raise ReviewError(
             "Produk belum selesai disewa."
         )
 
     if hasattr(rental_item, "review"):
-        raise PermissionDenied(
+        raise ReviewError(
             "Produk ini sudah direview."
         )
 
